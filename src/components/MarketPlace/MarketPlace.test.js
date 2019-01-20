@@ -51,28 +51,40 @@ describe('formSubmit', () => {
   
   beforeEach(() => wrapper = shallow(<MarketPlace />))
   
-  it('updates buyOrders if buy is true', () => {
-    let order = { userID: '1234',
+  it('updates orderHistory', () => {
+    let order = { 
+        userID: '1234',
         quantity: '6',
         price: '304',
-        isBuy: 'true'
+        isBuy: 'true',
+        orderNumber: 1
       };
     wrapper.setState({ currentOrder: order })
     wrapper.instance().formSubmit();
     expect(wrapper.state('orderHistory')).toEqual([order])
   }) 
   
-  it('updates sellOrders if buy is false', () => {
+  it('updates orderHistory and the orderNumber', () => {
     let order = { 
         userID: '1234',
         quantity: '6',
         price: '304',
-        isBuy: 'false'
+        isBuy: 'false',
+        orderNumber: 1
       };
     wrapper.setState({ currentOrder: order })
     wrapper.instance().formSubmit();
     wrapper.instance().formSubmit();
-    expect(wrapper.state('orderHistory')).toEqual([order,order])
+    expect(wrapper.state('orderHistory')).toEqual([
+      order,
+      { 
+        userID: '1234',
+        quantity: '6',
+        price: '304',
+        isBuy: 'false',
+        orderNumber: 2
+      }
+    ])
   })
 })
 
@@ -119,7 +131,7 @@ describe('buyOrdersDisplay', () => {
       isBuy: 'true'
     };
     wrapper.setState({ orderHistory:  [order, order] })
-    expect(wrapper.instance().buyOrdersDisplay()).toEqual(['12 kg for £304'])
+    expect(wrapper.instance().buyOrdersDisplay()).toEqual(['12 kg for £304 // order  + order '])
   })  
   
   it('returns array in price order, highest to lowest', () => {
@@ -143,7 +155,7 @@ describe('buyOrdersDisplay', () => {
     };
     wrapper.setState({ orderHistory:  [order1, order2, order3] })
     expect(wrapper.instance().buyOrdersDisplay()).toEqual(
-      ['6 kg for £305','6 kg for £304','6 kg for £303']
+      ['6 kg for £305 // order ','6 kg for £304 // order ','6 kg for £303 // order ']
     )
   })
 })
@@ -161,7 +173,7 @@ describe('sellOrdersDisplay', () => {
       isBuy: 'false'
     };
     wrapper.setState({ orderHistory:  [order, order] })
-    expect(wrapper.instance().sellOrdersDisplay()).toEqual(['12 kg for £304'])
+    expect(wrapper.instance().sellOrdersDisplay()).toEqual(['12 kg for £304 // order  + order '])
   })  
   
   it('returns array in price order, lowest to highest', () => {
@@ -185,7 +197,7 @@ describe('sellOrdersDisplay', () => {
     };
     wrapper.setState({ orderHistory:  [order1, order2, order3] })
     expect(wrapper.instance().sellOrdersDisplay()).toEqual(
-      ['6 kg for £303','6 kg for £304','6 kg for £305']
+      ['6 kg for £303 // order ','6 kg for £304 // order ','6 kg for £305 // order ']
     )
   })
 })

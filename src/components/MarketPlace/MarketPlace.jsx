@@ -20,11 +20,14 @@ class MarketPlace extends React.Component {
   
   formSubmit = () => {
     const newOrder = Object.assign({}, this.state.currentOrder)
+    newOrder.orderNumber = this.state.orderNumber;
     const newOrderNumber = this.state.orderNumber + 1;
+    
     this.setState({
       orderHistory: [...this.state.orderHistory, newOrder],
       orderNumber: newOrderNumber,  
     });
+    console.log(this.state);
   };
   
   formChange = (event) => {
@@ -61,8 +64,9 @@ class MarketPlace extends React.Component {
     
     for (var i = 0; i < uniquePrices.length; i++) {
       const filterSell = allOrders.filter((obj) => obj.price === uniquePrices[i] )
+      const orderNumbers = filterSell.map((order) => order.orderNumber).join(' + order ')
       const quantity = filterSell.reduce((total, obj) => parseFloat(obj.quantity) + total, 0)
-      output.push(quantity.toString() + " kg for £" + uniquePrices[i].toString())
+      output.push(quantity.toString() + " kg for £" + uniquePrices[i].toString() + ' // order ' + orderNumbers)
     } 
     return output;
   }
