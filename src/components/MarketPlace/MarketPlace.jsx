@@ -7,8 +7,8 @@ class MarketPlace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      buyOrders: [],
-      sellOrders: [],
+      orderHistory: [],
+      orderNumber: 1,
       currentOrder: {
         userID: '',
         quantity: 0,
@@ -19,23 +19,18 @@ class MarketPlace extends React.Component {
   }
   
   formSubmit = () => {
-    console.log(this.state)
     const newOrder = Object.assign({}, this.state.currentOrder)
-    
-    if (this.state.currentOrder.isBuy === 'true') {
-      let buyHistory = this.state.buyOrders;
-      buyHistory.push(newOrder)
-      this.setState({ buyOrders: buyHistory })
-    } else {
-      let sellHistory = this.state.sellOrders;
-      sellHistory.push(newOrder)
-      this.setState({ sellOrders: sellHistory })     
-    }
-  }
+    const newOrderNumber = this.state.orderNumber + 1;
+    let orderHistory = this.state.orderHistory;
+    orderHistory.push(newOrder);
+    this.setState({
+      orderHistory: orderHistory,
+      orderNumber: newOrderNumber,  
+    });
+  };
   
   formChange = (event) => {
-    const target = event.target;
-    const name = target.name;
+    const name = event.target.name;
     const currentOrder = this.state.currentOrder;
     
     currentOrder[name] = event.target.value;
@@ -44,7 +39,7 @@ class MarketPlace extends React.Component {
   }
   
   buyOrdersDisplay = () => {
-    const buyOrders = this.state.buyOrders
+    const buyOrders = this.state.orderHistory.filter((obj) => obj.isBuy === 'true' )
     
     if (buyOrders === []) {
       return([])
@@ -66,7 +61,7 @@ class MarketPlace extends React.Component {
   }
   
   sellOrdersDisplay = () => {
-    const sellOrders = this.state.sellOrders
+    const sellOrders = this.state.orderHistory.filter((obj) => obj.isBuy === 'false' )
 
     if (sellOrders === []) {
       return([])

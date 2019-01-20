@@ -59,8 +59,7 @@ describe('formSubmit', () => {
       };
     wrapper.setState({ currentOrder: order })
     wrapper.instance().formSubmit();
-    expect(wrapper.state('sellOrders')).toEqual([])
-    expect(wrapper.state('buyOrders')).toEqual([order])
+    expect(wrapper.state('orderHistory')).toEqual([order])
   }) 
   
   it('updates sellOrders if buy is false', () => {
@@ -72,8 +71,8 @@ describe('formSubmit', () => {
       };
     wrapper.setState({ currentOrder: order })
     wrapper.instance().formSubmit();
-    expect(wrapper.state('buyOrders')).toEqual([])
-    expect(wrapper.state('sellOrders')).toEqual([order])
+    wrapper.instance().formSubmit();
+    expect(wrapper.state('orderHistory')).toEqual([order,order])
   })
 })
 
@@ -119,7 +118,7 @@ describe('buyOrdersDisplay', () => {
       price: 304,
       isBuy: 'true'
     };
-    wrapper.setState({ buyOrders:  [order, order] })
+    wrapper.setState({ orderHistory:  [order, order] })
     expect(wrapper.instance().buyOrdersDisplay()).toEqual(['12 kg for £304'])
   })  
   
@@ -142,7 +141,7 @@ describe('buyOrdersDisplay', () => {
       price: 305,
       isBuy: 'true'
     };
-    wrapper.setState({ buyOrders:  [order1, order2, order3] })
+    wrapper.setState({ orderHistory:  [order1, order2, order3] })
     expect(wrapper.instance().buyOrdersDisplay()).toEqual(
       ['6 kg for £305','6 kg for £304','6 kg for £303']
     )
@@ -161,7 +160,7 @@ describe('sellOrdersDisplay', () => {
       price: 304,
       isBuy: 'false'
     };
-    wrapper.setState({ sellOrders:  [order, order] })
+    wrapper.setState({ orderHistory:  [order, order] })
     expect(wrapper.instance().sellOrdersDisplay()).toEqual(['12 kg for £304'])
   })  
   
@@ -184,7 +183,7 @@ describe('sellOrdersDisplay', () => {
       price: 305,
       isBuy: 'false'
     };
-    wrapper.setState({ sellOrders:  [order1, order2, order3] })
+    wrapper.setState({ orderHistory:  [order1, order2, order3] })
     expect(wrapper.instance().sellOrdersDisplay()).toEqual(
       ['6 kg for £303','6 kg for £304','6 kg for £305']
     )
