@@ -64,7 +64,8 @@ describe('formSubmit', () => {
   }) 
   
   it('updates sellOrders if buy is false', () => {
-    let order = { userID: '1234',
+    let order = { 
+        userID: '1234',
         quantity: '6',
         price: '304',
         isBuy: false
@@ -73,5 +74,49 @@ describe('formSubmit', () => {
     wrapper.instance().formSubmit();
     expect(wrapper.state('buyOrders')).toEqual([])
     expect(wrapper.state('sellOrders')).toEqual([order])
+  })
+})
+
+describe('buyOrdersDisplay', () => {
+  let wrapper;
+  
+  beforeEach(() => wrapper = shallow(<MarketPlace />));
+  
+  it('returns an array of the buy orders, summed up', () => {
+    let order = { 
+      userID: '1234',
+      quantity: 6,
+      price: 304,
+      isBuy: true
+    };
+    wrapper.setState({ buyOrders:  [order, order] })
+    wrapper.instance().buyOrdersDisplay();
+    expect(wrapper.instance().buyOrdersDisplay()).toEqual(['12 kg for £304'])
+  })  
+  
+  it('returns array in price order, highest to lowest', () => {
+    let order1 = { 
+      userID: '1234',
+      quantity: 6,
+      price: 304,
+      isBuy: true
+    };
+    let order2 = { 
+      userID: '4321',
+      quantity: 6,
+      price: 303,
+      isBuy: true
+    };
+    let order3 = { 
+      userID: '2313',
+      quantity: 6,
+      price: 305,
+      isBuy: true
+    };
+    wrapper.setState({ buyOrders:  [order1, order2, order3] })
+    wrapper.instance().buyOrdersDisplay();
+    expect(wrapper.instance().buyOrdersDisplay()).toEqual(
+      ['6 kg for £305','6 kg for £304','6 kg for £303']
+    )
   })
 })

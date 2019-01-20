@@ -19,7 +19,6 @@ class MarketPlace extends React.Component {
   }
   
   formSubmit = (event) => {
-    console.log(event)
     let newOrder = this.state.currentOrder;
     
     if (this.state.currentOrder.isBuy) {
@@ -37,12 +36,31 @@ class MarketPlace extends React.Component {
     console.log(event.target)
   }
   
+  buyOrdersDisplay = () => {
+    const buyOnly = this.state.buyOrders
+                        .filter((obj) => obj.isBuy === true);
+
+    const uniqueBuyPrice = buyOnly.map((obj) => obj.price)
+                                  .filter((value, index, self) => self.indexOf(value) === index)
+                                  .sort()
+                                  .reverse();
+    const output = [];
+    
+    for (var i = 0; i < uniqueBuyPrice.length; i++) {
+      const filterBuy = buyOnly.filter((obj) => obj.price === uniqueBuyPrice[i] )
+      const quantity = filterBuy.reduce((total, obj) => obj.quantity + total, 0)
+      output.push(quantity.toString() + " kg for £" + uniqueBuyPrice[i].toString())
+    } 
+
+    return output;
+  }
+  
   render() {
     return(
       <div className="marketplace-container">
-        this is the market place
+        <h2>Silver Bars Marketplace</h2>
         <BuyBoard 
-          buyOrders={this.state.buyOrders}
+          buyOrders={this.buyOrdersDisplay()}
         />
         <SellBoard 
           sellOrders={this.state.sellOrders}
