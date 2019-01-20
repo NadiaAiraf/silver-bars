@@ -21,10 +21,8 @@ class MarketPlace extends React.Component {
   formSubmit = () => {
     const newOrder = Object.assign({}, this.state.currentOrder)
     const newOrderNumber = this.state.orderNumber + 1;
-    let orderHistory = this.state.orderHistory;
-    orderHistory.push(newOrder);
     this.setState({
-      orderHistory: orderHistory,
+      orderHistory: [...this.state.orderHistory, newOrder],
       orderNumber: newOrderNumber,  
     });
   };
@@ -40,46 +38,32 @@ class MarketPlace extends React.Component {
   
   buyOrdersDisplay = () => {
     const buyOrders = this.state.orderHistory.filter((obj) => obj.isBuy === 'true' )
-    
-    if (buyOrders === []) {
-      return([])
-    }
 
     const uniqueBuyPrice = buyOrders.map((obj) => obj.price)
                                   .filter((value, index, self) => self.indexOf(value) === index)
                                   .sort()
                                   .reverse();
-    const output = [];
-    
-    for (var i = 0; i < uniqueBuyPrice.length; i++) {
-      const filterBuy = buyOrders.filter((obj) => obj.price === uniqueBuyPrice[i] )
-      const quantity = filterBuy.reduce((total, obj) => parseFloat(obj.quantity) + total, 0)
-      output.push(quantity.toString() + " kg for £" + uniqueBuyPrice[i].toString())
-    } 
-
-    return output;
+    return(this._sumByKey(uniqueBuyPrice, buyOrders))
   }
   
   sellOrdersDisplay = () => {
     const sellOrders = this.state.orderHistory.filter((obj) => obj.isBuy === 'false' )
 
-    if (sellOrders === []) {
-      return([])
-    }
-
-
     const uniqueSellPrice = sellOrders.map((obj) => obj.price)
                                   .filter((value, index, self) => self.indexOf(value) === index)
                                   .sort();
-                                  
+    
+    return(this._sumByKey(uniqueSellPrice, sellOrders))
+  }
+  
+  _sumByKey = (uniquePrices, allOrders) => {
     const output = [];
     
-    for (var i = 0; i < uniqueSellPrice.length; i++) {
-      const filterSell = sellOrders.filter((obj) => obj.price === uniqueSellPrice[i] )
+    for (var i = 0; i < uniquePrices.length; i++) {
+      const filterSell = allOrders.filter((obj) => obj.price === uniquePrices[i] )
       const quantity = filterSell.reduce((total, obj) => parseFloat(obj.quantity) + total, 0)
-      output.push(quantity.toString() + " kg for £" + uniqueSellPrice[i].toString())
+      output.push(quantity.toString() + " kg for £" + uniquePrices[i].toString())
     } 
-
     return output;
   }
   
