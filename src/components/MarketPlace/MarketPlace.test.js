@@ -15,7 +15,8 @@ describe('MarketPlace', () => {
   })
   
   it('should render a BuyBoard component', () => {
-    expect(wrapper.containsMatchingElement(<BuyBoard />)).toEqual(true)
+    let fakeBoard = <BuyBoard buyOrders={wrapper.instance().state.buyOrders} />
+    expect(wrapper.containsMatchingElement(fakeBoard)).toEqual(true)
   })
   
   it('should render a SellBoard component', () => {

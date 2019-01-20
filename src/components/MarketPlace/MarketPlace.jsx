@@ -4,12 +4,20 @@ import SellBoard from '../SellBoard/SellBoard';
 import OrderForm from '../OrderForm/OrderForm';
 
 class MarketPlace extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      buyOrders: [],
+    }
+  }
   
   render() {
     return(
       <div className="marketplace-container">
         this is the market place
-        <BuyBoard />
+        <BuyBoard 
+          buyOrders={this.state.buyOrders}
+        />
         <SellBoard />
         <OrderForm />
       </div>
