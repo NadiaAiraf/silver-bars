@@ -9,7 +9,21 @@ class MarketPlace extends React.Component {
     this.state = {
       buyOrders: [],
       sellOrders: [],
+      currentOrder: {
+        name: '',
+        quantity: 0,
+        price: 0,
+        isBuy: undefined
+      },
     }
+  }
+  
+  formSubmit = () => {
+    console.log('submit;')
+  }
+  
+  formChange = () => {
+    console.log('change')
   }
   
   render() {
@@ -22,7 +36,10 @@ class MarketPlace extends React.Component {
         <SellBoard 
           sellOrders={this.state.sellOrders}
         />
-        <OrderForm />
+        <OrderForm 
+          formChange={this.formChange}
+          formSubmit={this.formSubmit}
+        />
       </div>
     )
   }

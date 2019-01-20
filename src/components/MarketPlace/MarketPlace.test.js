@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import MarketPlace from './MarketPlace';
 import BuyBoard from '../BuyBoard/BuyBoard';
 import SellBoard from '../SellBoard/SellBoard';
@@ -26,5 +26,18 @@ describe('MarketPlace', () => {
   
   it('should render a OrderForm component', () => {
     expect(wrapper.containsMatchingElement(<OrderForm />)).toEqual(true)
+  })
+})
+
+describe('Mounted MarketPlace', () => {
+  let wrapper;
+  
+  beforeEach(() => wrapper = mount(<MarketPlace />))
+  
+  it('calls formSubmit when an order form is submitted', () => {
+    const orderSpy = jest.spyOn(wrapper.instance(), 'formSubmit')
+    wrapper.instance().forceUpdate();
+    wrapper.find('.submit-button').first().simulate('click')
+    expect(orderSpy).toHaveBeenCalledTimes(1);
   })
 })
