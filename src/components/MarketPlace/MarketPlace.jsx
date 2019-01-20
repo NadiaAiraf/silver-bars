@@ -10,7 +10,7 @@ class MarketPlace extends React.Component {
       buyOrders: [],
       sellOrders: [],
       currentOrder: {
-        name: '',
+        userID: '',
         quantity: 0,
         price: 0,
         isBuy: undefined
@@ -18,10 +18,11 @@ class MarketPlace extends React.Component {
     }
   }
   
-  formSubmit = (event) => {
-    let newOrder = this.state.currentOrder;
+  formSubmit = () => {
+    console.log(this.state)
+    const newOrder = Object.assign({}, this.state.currentOrder)
     
-    if (this.state.currentOrder.isBuy) {
+    if (this.state.currentOrder.isBuy === 'true') {
       let buyHistory = this.state.buyOrders;
       buyHistory.push(newOrder)
       this.setState({ buyOrders: buyHistory })
@@ -33,11 +34,21 @@ class MarketPlace extends React.Component {
   }
   
   formChange = (event) => {
-    console.log(event.target)
+    const target = event.target;
+    const name = target.name;
+    const currentOrder = this.state.currentOrder;
+    
+    currentOrder[name] = event.target.value;
+    
+    this.setState({ currentOrder: currentOrder })
   }
   
   buyOrdersDisplay = () => {
     const buyOrders = this.state.buyOrders
+    
+    if (buyOrders === []) {
+      return([])
+    }
 
     const uniqueBuyPrice = buyOrders.map((obj) => obj.price)
                                   .filter((value, index, self) => self.indexOf(value) === index)
@@ -47,7 +58,7 @@ class MarketPlace extends React.Component {
     
     for (var i = 0; i < uniqueBuyPrice.length; i++) {
       const filterBuy = buyOrders.filter((obj) => obj.price === uniqueBuyPrice[i] )
-      const quantity = filterBuy.reduce((total, obj) => obj.quantity + total, 0)
+      const quantity = filterBuy.reduce((total, obj) => parseFloat(obj.quantity) + total, 0)
       output.push(quantity.toString() + " kg for £" + uniqueBuyPrice[i].toString())
     } 
 
@@ -57,15 +68,20 @@ class MarketPlace extends React.Component {
   sellOrdersDisplay = () => {
     const sellOrders = this.state.sellOrders
 
+    if (sellOrders === []) {
+      return([])
+    }
+
+
     const uniqueSellPrice = sellOrders.map((obj) => obj.price)
                                   .filter((value, index, self) => self.indexOf(value) === index)
-                                  .sort()
-
+                                  .sort();
+                                  
     const output = [];
     
     for (var i = 0; i < uniqueSellPrice.length; i++) {
       const filterSell = sellOrders.filter((obj) => obj.price === uniqueSellPrice[i] )
-      const quantity = filterSell.reduce((total, obj) => obj.quantity + total, 0)
+      const quantity = filterSell.reduce((total, obj) => parseFloat(obj.quantity) + total, 0)
       output.push(quantity.toString() + " kg for £" + uniqueSellPrice[i].toString())
     } 
 
@@ -83,7 +99,9 @@ class MarketPlace extends React.Component {
           sellOrders={this.sellOrdersDisplay()}
         />
         <OrderForm 
-          userValue={this.state.currentOrder.name}
+          userID={this.state.currentOrder.userID}
+          quantity={this.state.currentOrder.quantity}
+          price={this.state.currentOrder.price}
           formChange={this.formChange}
           formSubmit={this.formSubmit}
         />

@@ -55,7 +55,7 @@ describe('formSubmit', () => {
     let order = { userID: '1234',
         quantity: '6',
         price: '304',
-        isBuy: true
+        isBuy: 'true'
       };
     wrapper.setState({ currentOrder: order })
     wrapper.instance().formSubmit();
@@ -68,7 +68,7 @@ describe('formSubmit', () => {
         userID: '1234',
         quantity: '6',
         price: '304',
-        isBuy: false
+        isBuy: 'false'
       };
     wrapper.setState({ currentOrder: order })
     wrapper.instance().formSubmit();
@@ -87,7 +87,7 @@ describe('buyOrdersDisplay', () => {
       userID: '1234',
       quantity: 6,
       price: 304,
-      isBuy: true
+      isBuy: 'true'
     };
     wrapper.setState({ buyOrders:  [order, order] })
     expect(wrapper.instance().buyOrdersDisplay()).toEqual(['12 kg for £304'])
@@ -98,19 +98,19 @@ describe('buyOrdersDisplay', () => {
       userID: '1234',
       quantity: 6,
       price: 304,
-      isBuy: true
+      isBuy: 'true'
     };
     let order2 = { 
       userID: '4321',
       quantity: 6,
       price: 303,
-      isBuy: true
+      isBuy: 'true'
     };
     let order3 = { 
       userID: '2313',
       quantity: 6,
       price: 305,
-      isBuy: true
+      isBuy: 'true'
     };
     wrapper.setState({ buyOrders:  [order1, order2, order3] })
     expect(wrapper.instance().buyOrdersDisplay()).toEqual(
@@ -129,7 +129,7 @@ describe('sellOrdersDisplay', () => {
       userID: '1234',
       quantity: 6,
       price: 304,
-      isBuy: false
+      isBuy: 'false'
     };
     wrapper.setState({ sellOrders:  [order, order] })
     expect(wrapper.instance().sellOrdersDisplay()).toEqual(['12 kg for £304'])
@@ -140,19 +140,19 @@ describe('sellOrdersDisplay', () => {
       userID: '1234',
       quantity: 6,
       price: 304,
-      isBuy: false
+      isBuy: 'false'
     };
     let order2 = { 
       userID: '4321',
       quantity: 6,
       price: 303,
-      isBuy: false
+      isBuy: 'false'
     };
     let order3 = { 
       userID: '2313',
       quantity: 6,
       price: 305,
-      isBuy: false
+      isBuy: 'false'
     };
     wrapper.setState({ sellOrders:  [order1, order2, order3] })
     expect(wrapper.instance().sellOrdersDisplay()).toEqual(
