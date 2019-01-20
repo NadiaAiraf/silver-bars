@@ -55,6 +55,25 @@ class MarketPlace extends React.Component {
     return output;
   }
   
+  sellOrdersDisplay = () => {
+    const sellOnly = this.state.sellOrders
+                        .filter((obj) => obj.isBuy === false);
+
+    const uniqueSellPrice = sellOnly.map((obj) => obj.price)
+                                  .filter((value, index, self) => self.indexOf(value) === index)
+                                  .sort()
+
+    const output = [];
+    
+    for (var i = 0; i < uniqueSellPrice.length; i++) {
+      const filterSell = sellOnly.filter((obj) => obj.price === uniqueSellPrice[i] )
+      const quantity = filterSell.reduce((total, obj) => obj.quantity + total, 0)
+      output.push(quantity.toString() + " kg for £" + uniqueSellPrice[i].toString())
+    } 
+
+    return output;
+  }
+  
   render() {
     return(
       <div className="marketplace-container">
@@ -63,7 +82,7 @@ class MarketPlace extends React.Component {
           buyOrders={this.buyOrdersDisplay()}
         />
         <SellBoard 
-          sellOrders={this.state.sellOrders}
+          sellOrders={this.sellOrdersDisplay()}
         />
         <OrderForm 
           userValue={this.state.currentOrder.name}
