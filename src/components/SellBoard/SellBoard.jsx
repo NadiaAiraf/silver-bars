@@ -1,17 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const SellBoard = () => (
-    <div className="display-container">
+const SellBoard = ({sellOrders}) => {
+  const displayOrders = sellOrders.map( order => (
+      <li className="sell-order">
+        { order }
+      </li>
+    )
+  );
+  
+  return ( 
+    <div className="sell-board-container">
       <h4>sell board</h4>
       <ul>
-        <li>
-          sell order 1
-        </li><li>
-          sell order 2
-        </li>
+        {displayOrders}
       </ul>
       
     </div>
-)
+  )
+}
+
+SellBoard.propTypes = { sellOrders: PropTypes.array.isRequired };
 
 export default SellBoard;

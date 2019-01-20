@@ -8,6 +8,7 @@ class MarketPlace extends React.Component {
     super(props);
     this.state = {
       buyOrders: [],
+      sellOrders: [],
     }
   }
   
@@ -18,7 +19,9 @@ class MarketPlace extends React.Component {
         <BuyBoard 
           buyOrders={this.state.buyOrders}
         />
-        <SellBoard />
+        <SellBoard 
+          sellOrders={this.state.sellOrders}
+        />
         <OrderForm />
       </div>
     )
