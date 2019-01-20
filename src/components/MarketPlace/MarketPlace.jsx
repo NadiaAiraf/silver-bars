@@ -37,17 +37,16 @@ class MarketPlace extends React.Component {
   }
   
   buyOrdersDisplay = () => {
-    const buyOnly = this.state.buyOrders
-                        .filter((obj) => obj.isBuy === true);
+    const buyOrders = this.state.buyOrders
 
-    const uniqueBuyPrice = buyOnly.map((obj) => obj.price)
+    const uniqueBuyPrice = buyOrders.map((obj) => obj.price)
                                   .filter((value, index, self) => self.indexOf(value) === index)
                                   .sort()
                                   .reverse();
     const output = [];
     
     for (var i = 0; i < uniqueBuyPrice.length; i++) {
-      const filterBuy = buyOnly.filter((obj) => obj.price === uniqueBuyPrice[i] )
+      const filterBuy = buyOrders.filter((obj) => obj.price === uniqueBuyPrice[i] )
       const quantity = filterBuy.reduce((total, obj) => obj.quantity + total, 0)
       output.push(quantity.toString() + " kg for £" + uniqueBuyPrice[i].toString())
     } 
@@ -56,17 +55,16 @@ class MarketPlace extends React.Component {
   }
   
   sellOrdersDisplay = () => {
-    const sellOnly = this.state.sellOrders
-                        .filter((obj) => obj.isBuy === false);
+    const sellOrders = this.state.sellOrders
 
-    const uniqueSellPrice = sellOnly.map((obj) => obj.price)
+    const uniqueSellPrice = sellOrders.map((obj) => obj.price)
                                   .filter((value, index, self) => self.indexOf(value) === index)
                                   .sort()
 
     const output = [];
     
     for (var i = 0; i < uniqueSellPrice.length; i++) {
-      const filterSell = sellOnly.filter((obj) => obj.price === uniqueSellPrice[i] )
+      const filterSell = sellOrders.filter((obj) => obj.price === uniqueSellPrice[i] )
       const quantity = filterSell.reduce((total, obj) => obj.quantity + total, 0)
       output.push(quantity.toString() + " kg for £" + uniqueSellPrice[i].toString())
     } 
