@@ -25,7 +25,11 @@ describe('MarketPlace', () => {
   })
   
   it('should render a OrderForm component', () => {
-    expect(wrapper.containsMatchingElement(<OrderForm />)).toEqual(true)
+    let fakeOrderForm = <OrderForm
+                          formChange={wrapper.instance().formChange}
+                          formSubmit={wrapper.instance().formSubmit}
+                        />
+    expect(wrapper.containsMatchingElement(fakeOrderForm)).toEqual(true)
   })
 })
 
@@ -34,10 +38,40 @@ describe('Mounted MarketPlace', () => {
   
   beforeEach(() => wrapper = mount(<MarketPlace />))
   
-  it('calls formSubmit when an order form is submitted', () => {
-    const orderSpy = jest.spyOn(wrapper.instance(), 'formSubmit')
-    wrapper.instance().forceUpdate();
-    wrapper.find('.submit-button').first().simulate('click')
-    expect(orderSpy).toHaveBeenCalledTimes(1);
+  // it('calls formSubmit when an order form is submitted', () => {
+  //   const orderSpy = jest.spyOn(wrapper.instance(), 'formSubmit')
+  //   wrapper.instance().forceUpdate();
+  //   wrapper.find('.submit-button').first().simulate('click')
+  //   expect(orderSpy).toHaveBeenCalledTimes(1);
+  // })
+})
+
+describe('formSubmit', () => {
+  let wrapper;
+  
+  beforeEach(() => wrapper = shallow(<MarketPlace />))
+  
+  it('updates buyOrders if buy is true', () => {
+    let order = { userID: '1234',
+        quantity: '6',
+        price: '304',
+        isBuy: true
+      };
+    wrapper.setState({ currentOrder: order })
+    wrapper.instance().formSubmit();
+    expect(wrapper.state('sellOrders')).toEqual([])
+    expect(wrapper.state('buyOrders')).toEqual([order])
+  }) 
+  
+  it('updates sellOrders if buy is false', () => {
+    let order = { userID: '1234',
+        quantity: '6',
+        price: '304',
+        isBuy: false
+      };
+    wrapper.setState({ currentOrder: order })
+    wrapper.instance().formSubmit();
+    expect(wrapper.state('buyOrders')).toEqual([])
+    expect(wrapper.state('sellOrders')).toEqual([order])
   })
 })

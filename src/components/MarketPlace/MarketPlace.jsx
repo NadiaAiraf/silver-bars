@@ -18,12 +18,23 @@ class MarketPlace extends React.Component {
     }
   }
   
-  formSubmit = () => {
-    console.log('submit;')
+  formSubmit = (event) => {
+    console.log(event)
+    let newOrder = this.state.currentOrder;
+    
+    if (this.state.currentOrder.isBuy) {
+      let buyHistory = this.state.buyOrders;
+      buyHistory.push(newOrder)
+      this.setState({ buyOrders: buyHistory })
+    } else {
+      let sellHistory = this.state.sellOrders;
+      sellHistory.push(newOrder)
+      this.setState({ sellOrders: sellHistory })     
+    }
   }
   
-  formChange = () => {
-    console.log('change')
+  formChange = (event) => {
+    console.log(event.target)
   }
   
   render() {
@@ -37,6 +48,7 @@ class MarketPlace extends React.Component {
           sellOrders={this.state.sellOrders}
         />
         <OrderForm 
+          userValue={this.state.currentOrder.name}
           formChange={this.formChange}
           formSubmit={this.formSubmit}
         />
