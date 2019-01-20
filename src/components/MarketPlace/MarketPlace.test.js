@@ -77,6 +77,36 @@ describe('formSubmit', () => {
   })
 })
 
+describe('formChange', () => {
+  let wrapper;
+  
+  beforeEach(() => wrapper = shallow(<MarketPlace />))
+
+  it('updates the currentOrder state given an event object with name/target/value', () =>{
+    wrapper.setState({
+      currentOrder: {
+        useriD: '1234',
+        quantity: '2',
+        price: '3',
+        isBuy: 'false'
+      }
+    })
+    let madeUpEvent = {
+      target: {
+        name: 'quantity',
+        value: '6'
+      }
+    };
+    wrapper.instance().formChange(madeUpEvent);
+    expect(wrapper.state('currentOrder')).toEqual({
+      useriD: '1234',
+      quantity: '6',
+      price: '3',
+      isBuy: 'false'
+    });
+  });
+});
+
 describe('buyOrdersDisplay', () => {
   let wrapper;
   
