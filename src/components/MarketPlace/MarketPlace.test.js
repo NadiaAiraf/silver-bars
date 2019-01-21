@@ -43,12 +43,19 @@ describe('Mounted MarketPlace', () => {
   
   beforeEach(() => wrapper = mount(<MarketPlace />))
   
-  // it('calls formSubmit when an order form is submitted', () => {
-  //   const orderSpy = jest.spyOn(wrapper.instance(), 'formSubmit')
-  //   wrapper.instance().forceUpdate();
-  //   wrapper.find('.submit-button').first().simulate('click')
-  //   expect(orderSpy).toHaveBeenCalledTimes(1);
-  // })
+  it('calls formSubmit when an order form is submitted', () => {
+    const orderSpy = jest.spyOn(wrapper.instance(), 'formSubmit')
+    wrapper.instance().forceUpdate();
+    wrapper.find('.submit-button').first().simulate('click')
+    expect(orderSpy).toHaveBeenCalledTimes(1);
+  })  
+  
+  it('calls removeOrder when the remove orderNumber is clicked', () => {
+    const orderSpy = jest.spyOn(wrapper.instance(), 'removeOrder')
+    wrapper.instance().forceUpdate();
+    wrapper.find('.remove-order-button').first().simulate('click')
+    expect(orderSpy).toHaveBeenCalledTimes(1);
+  })
 })
 
 describe('formSubmit', () => {
