@@ -45,8 +45,8 @@ class MarketPlace extends React.Component {
 
     const uniqueBuyPrice = buyOrders.map((obj) => obj.price)
                                   .filter((value, index, self) => self.indexOf(value) === index)
-                                  .sort()
-                                  .reverse();
+                                  .sort((a,b) => parseFloat(b) - parseFloat(a))
+                                  
     return(this._sumByKey(uniqueBuyPrice, buyOrders))
   }
   
@@ -55,8 +55,8 @@ class MarketPlace extends React.Component {
 
     const uniqueSellPrice = sellOrders.map((obj) => obj.price)
                                   .filter((value, index, self) => self.indexOf(value) === index)
-                                  .sort();
-    
+                                  .sort((a,b) => parseFloat(a) - parseFloat(b));
+                                  
     return(this._sumByKey(uniqueSellPrice, sellOrders))
   }
   
@@ -66,7 +66,6 @@ class MarketPlace extends React.Component {
   
   removeOrder = () => {
     let orderHistory = this.state.orderHistory;
-    console.log(this.state.orderToRemove)
     orderHistory = orderHistory.filter((obj) => obj.orderNumber !== parseInt(this.state.orderToRemove))
     this.setState({ orderHistory: orderHistory })
   }
