@@ -8,8 +8,9 @@ This application was initialized using the create-react-app found [here](https:/
 
 1. Clone this repo onto you computer
 2. Navigate into the folder on your command line
-3. `npm start`
-4. If you now head to `localhost:3000` on your favourite browser the app should be up and running
+3. `$ npm install` and then wait a while
+4. `$ npm start`
+5. If you now head to `localhost:3000` on your favourite browser the app should be up and running
 
 For tests, these can be run by entering the command `npm test`
 
@@ -34,3 +35,5 @@ Initially the OrderForm was intended to be setup so that it would simply pass ba
 - refactoring some of the beefier functions in the MarketPlace component. I did ok with some of these but still feel more could be done. Moving some of the display functions to a orderboard component would help.
 - edge cases: currently I'm pretty sure you can enter -ve orders and the like. You can also enter orders without clicking Buy or Sell, doesn't appear or break anything but means it's possible to go from order 1 to order 3 which isn't perfect.
 - manually entering the orders isn't ideal, I wouldn't want to do it. The formSubmit should be refactored to make it friendlier to the idea of importing data, if OrderForm had worked as intended and simple called the function and supplied parameters it would've been much easier to write the function in this way.
+- currently the userID box on the input form does nothing, it's on there because it was part of the tech test requirements though
+- setting right some of the warnings regarding children needed unique keys
