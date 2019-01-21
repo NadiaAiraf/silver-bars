@@ -4,6 +4,7 @@ import MarketPlace from './MarketPlace';
 import BuyBoard from '../BuyBoard/BuyBoard';
 import SellBoard from '../SellBoard/SellBoard';
 import OrderForm from '../OrderForm/OrderForm';
+import RemoveOrder from '../RemoveOrder/RemoveOrder';
 
 describe('MarketPlace', () => {
   let wrapper;
@@ -15,12 +16,12 @@ describe('MarketPlace', () => {
   })
   
   it('should render a BuyBoard component', () => {
-    let fakeBoard = <BuyBoard buyOrders={wrapper.instance().state.buyOrders} />
+    let fakeBoard = <BuyBoard buyOrders={wrapper.instance().buyOrders} />
     expect(wrapper.containsMatchingElement(fakeBoard)).toEqual(true)
   })
   
   it('should render a SellBoard component', () => {
-    let fakeSellBoard = <SellBoard sellOrders={wrapper.instance().state.sellOrders} />
+    let fakeSellBoard = <SellBoard sellOrders={wrapper.instance().sellOrders} />
     expect(wrapper.containsMatchingElement(fakeSellBoard)).toEqual(true)
   })
   
@@ -30,6 +31,10 @@ describe('MarketPlace', () => {
                           formSubmit={wrapper.instance().formSubmit}
                         />
     expect(wrapper.containsMatchingElement(fakeOrderForm)).toEqual(true)
+  })
+  
+  it('should render a removeOrder component', () => {
+    expect(wrapper.containsMatchingElement(<RemoveOrder />)).toEqual(true)
   })
 })
 
@@ -201,3 +206,31 @@ describe('sellOrdersDisplay', () => {
     )
   })
 })
+
+describe('removeOrderChange', () => {
+  let wrapper;
+  
+  beforeEach(() => wrapper = shallow(<MarketPlace />));
+  
+  it('sets the orderNumber that will be removed given event.target.value', () => {
+     let fakeEvent = { target: { value: 7 }};
+     wrapper.instance().removeOrderChange(fakeEvent);
+     expect(wrapper.state('orderToRemove')).toEqual(7)
+  });
+});
+
+describe('removeOrder', () => {
+  let wrapper;
+  
+  beforeEach(() => wrapper = shallow(<MarketPlace />));
+  
+  it('remove the set orderNumber from the orderHistory state', () => {
+    let orderHistory = [{orderNumber: 4}, {orderNumber:5}];
+    wrapper.setState({
+      orderHistory: orderHistory,
+      orderToRemove: 5,
+    });
+    wrapper.instance().removeOrder();
+    expect(wrapper.state('orderHistory')).toEqual([{ orderNumber: 4 }])
+  });
+});

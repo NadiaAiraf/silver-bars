@@ -2,6 +2,7 @@ import React from 'react';
 import BuyBoard from '../BuyBoard/BuyBoard';
 import SellBoard from '../SellBoard/SellBoard';
 import OrderForm from '../OrderForm/OrderForm';
+import RemoveOrder from '../RemoveOrder/RemoveOrder';
 
 class MarketPlace extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class MarketPlace extends React.Component {
         price: 0,
         isBuy: undefined
       },
+      orderToRemove: undefined,
     }
   }
   
@@ -27,7 +29,6 @@ class MarketPlace extends React.Component {
       orderHistory: [...this.state.orderHistory, newOrder],
       orderNumber: newOrderNumber,  
     });
-    console.log(this.state);
   };
   
   formChange = (event) => {
@@ -59,6 +60,17 @@ class MarketPlace extends React.Component {
     return(this._sumByKey(uniqueSellPrice, sellOrders))
   }
   
+  removeOrderChange = (event) => {
+    this.setState({ orderToRemove: event.target.value })
+  }
+  
+  removeOrder = () => {
+    let orderHistory = this.state.orderHistory;
+    console.log(this.state.orderToRemove)
+    orderHistory = orderHistory.filter((obj) => obj.orderNumber !== parseInt(this.state.orderToRemove))
+    this.setState({ orderHistory: orderHistory })
+  }
+  
   _sumByKey = (uniquePrices, allOrders) => {
     const output = [];
     
@@ -87,6 +99,10 @@ class MarketPlace extends React.Component {
           price={this.state.currentOrder.price}
           formChange={this.formChange}
           formSubmit={this.formSubmit}
+        />
+        <RemoveOrder 
+          removeOrderChange={this.removeOrderChange}
+          removeOrder={this.removeOrder}
         />
       </div>
     )
