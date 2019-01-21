@@ -14,8 +14,6 @@ This application was initialized using the create-react-app found [here](https:/
 
 For tests, these can be run by entering the command `npm test`
 
-If there are any issues testing 
-
 ### Example
 
 There should be a wonderful but quite pixelly gif below of how the application in use.
